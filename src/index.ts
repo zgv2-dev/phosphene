@@ -79,6 +79,13 @@ program
   .command("export <start> <end>")
   .option("--scale <number>", "wplace image export upscale")
   .description("export wplace image")
+  .hook("preAction", async () => {
+    const result = await createExportsDirectory();
+
+    if (!result) {
+      exitWithError("couldn't create exports directory");
+    }
+  })
   .action(async (startCoords, endCoords, opts) => {
     await exportWplace(startCoords, endCoords, opts.scale);
   });
