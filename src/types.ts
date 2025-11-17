@@ -44,4 +44,19 @@ export type Stats = {
   paintedPixels: number;
   correctPixels: number;
   percentageComplete: number;
+  colorsStats?: Record<
+    string,
+    {
+      total: number;
+      correct: number;
+      incorrect: number;
+      percentageComplete: number;
+    }
+  >;
+};
+
+export type Color = {
+  color: { r: number; g: number; b: number; a: number };
+  type: "free" | "paid";
+  name: string;
 };

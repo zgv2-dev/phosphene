@@ -15,16 +15,45 @@ export default async function stats(
   shouldExport: boolean | undefined,
   exportScale: number | undefined,
   shouldCopy: boolean | undefined,
+  verbose: boolean | undefined,
+  hideCompleted: boolean | undefined,
 ) {
   const drawing = getOneFromDb(id);
   const template = PNG.sync.read(Buffer.from(drawing.image));
   const wplace = await getWplaceImage(drawing);
 
-  const compareStats = compareImages(template, wplace);
+  const { colorsStats, ...compareStats } = compareImages(
+    template,
+    wplace,
+    verbose,
+  );
   const tableData = table(
     Object.entries(compareStats).map((entry) => [entry[0], entry[1]]),
   );
   console.log(tableData);
+
+  if (verbose) {
+    if (!colorsStats) {
+      console.log(colors.redBright(`❌ pixelsPerColor is undefined`));
+    } else {
+      console.log(colors.green("Detailed breakdown by color"));
+      const detailedTableData = table([
+        ["Color", "Total", "Correct", "Incorrect", "Complete"],
+        ...Object.entries(colorsStats)
+          .filter((stat) => {
+            if (hideCompleted && stat[1].percentageComplete === 100) {
+              return false;
+            }
+            return true;
+          })
+          .map((entry) => [
+            entry[0],
+            ...Object.values(entry[1]).map((inner) => [inner]),
+          ]),
+      ]);
+      console.log(detailedTableData);
+    }
+  }
 
   if (shouldCopy) {
     copy(`${"```\n"}${tableData}${"```"}`);

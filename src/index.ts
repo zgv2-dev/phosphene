@@ -50,6 +50,8 @@ program
   .option("-c, --copy", "copy stats to the clipboard")
   .option("-e, --export", "export wplace image")
   .option("--scale <number>", "wplace image export upscale")
+  .option("--verbose", "get detailed stats")
+  .option("--hide-completed", "hide completed colors")
   .description("view current state of a drawing")
   .hook("preAction", async () => {
     const result = await createExportsDirectory();
@@ -59,7 +61,15 @@ program
     }
   })
   .action(
-    async (id, opts) => await stats(id, opts.export, opts.scale, opts.copy),
+    async (id, opts) =>
+      await stats(
+        id,
+        opts.export,
+        opts.scale,
+        opts.copy,
+        opts.verbose,
+        opts.hideCompleted,
+      ),
   );
 program
   .command("toggle <id>")
