@@ -1,5 +1,5 @@
 import envPaths from "env-paths";
 
-const xdgPaths = envPaths("phospene", { suffix: "" });
+const xdgPaths = envPaths("phosphene", { suffix: "" });
 
 export default xdgPaths;
