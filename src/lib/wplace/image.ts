@@ -36,8 +36,8 @@ async function getWplaceTiles(drawing: WplaceCoords) {
 
     row.push(buffer);
 
-    if (row.length + 1 >= xTiles) {
-      tiles.push([...row]);
+    if (row.length >= xTiles) {
+      tiles.push(row);
       row = [];
     }
 
