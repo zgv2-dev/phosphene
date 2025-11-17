@@ -21,7 +21,10 @@ export default async function stats(
   const wplace = await getWplaceImage(drawing);
 
   const compareStats = compareImages(template, wplace);
-  const tableData = table([Object.keys(compareStats), Object.values(compareStats)]);
+  const tableData = table([
+    Object.keys(compareStats),
+    Object.values(compareStats),
+  ]);
   console.log(tableData);
 
   if (shouldCopy) {
@@ -32,8 +35,14 @@ export default async function stats(
   // TODO: make export directory configurable.
   // TODO: pring the filepath to the exports directory (and maybe file)
   if (shouldExport) {
-    const scale = parse(optional(pipe(string(), transform(Number))), exportScale);
-    await writePNG(upscaleImage(detransparentifyPNG(wplace), scale ?? 4), `exports/${Date.now()}-${drawing.name}`);
+    const scale = parse(
+      optional(pipe(string(), transform(Number))),
+      exportScale,
+    );
+    await writePNG(
+      upscaleImage(detransparentifyPNG(wplace), scale ?? 4),
+      `exports/${Date.now()}-${drawing.name}`,
+    );
     console.log(colors.greenBright(`☑️ wplace image exported successfully`));
   }
 }

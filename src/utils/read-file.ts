@@ -4,7 +4,10 @@ import { PNG } from "pngjs";
 import type { File } from "../types";
 import { getFileName } from "./get-file-name";
 
-export default async function readFile(filePath: string, unique: boolean | undefined): Promise<File> {
+export default async function readFile(
+  filePath: string,
+  unique: boolean | undefined,
+): Promise<File> {
   const file = Bun.file(filePath);
 
   if (!(await file.exists())) {
