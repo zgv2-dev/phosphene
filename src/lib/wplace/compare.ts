@@ -56,6 +56,14 @@ export default function compareImages(
       const isPixelPainted = wplace.data[idx + 3] === 255;
       const isPixelCorrect = wplaceHex === templateHex;
 
+      // TODO: figure out a way to make an interactive diff. probably v1 web version
+
+      // if (!isPixelCorrect) {
+      //   const color = wplaceColorsMap[templateHex];
+      //   const colorName = color?.name ?? wplaceHex ?? "Unknown";
+      //   console.log(`${colorName} as relative position ${x}:${y}`);
+      // }
+
       if (isPixelPainted) {
         paintedPixels += 1;
       }
