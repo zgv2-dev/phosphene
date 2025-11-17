@@ -27,3 +27,7 @@ TODO:
 - [ ] add remove storage option
 - [ ] add cron job (`phospehe toggle`)
 - [ ] figure out if it's possible to consume pixel share links
+
+## Inspiration
+
+[wplace-export](https://github.com/joaoalves03/wplace-export) by [João Alves](https://github.com/joaoalves03) was a great starting point even tho it allows exporting only at chunks level.
