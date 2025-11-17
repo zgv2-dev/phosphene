@@ -3,6 +3,7 @@
 import { Command } from "commander";
 import pkg from "../package.json";
 import add from "./actions/add";
+import exportWplace from "./actions/export";
 import list from "./actions/list";
 import remove from "./actions/remove";
 import stats from "./actions/stats";
@@ -56,6 +57,7 @@ program
   })
   .action(async (id, opts) => await stats(id, opts.export, opts.scale, opts.copy));
 program.command("toggle <id>").description("enable/disable auto tracking of drawing").action(toggle);
+program.command("export <start> <end>").description("export wplace image").action(exportWplace);
 
 try {
   await program.parseAsync();
