@@ -21,10 +21,9 @@ export default async function stats(
   const wplace = await getWplaceImage(drawing);
 
   const compareStats = compareImages(template, wplace);
-  const tableData = table([
-    Object.keys(compareStats),
-    Object.values(compareStats),
-  ]);
+  const tableData = table(
+    Object.entries(compareStats).map((entry) => [entry[0], entry[1]]),
+  );
   console.log(tableData);
 
   if (shouldCopy) {
