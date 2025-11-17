@@ -92,24 +92,27 @@ export default function compareImages(
 
   const colorsStats: Stats["colorsStats"] = {};
 
-  for (const color in wplaceColorsMap) {
-    const colorName = wplaceColorsMap[color]?.name;
-    if (!colorName) {
-      exitWithError("colors json is broken");
+  if (detailed) {
+    for (const color in wplaceColorsMap) {
+      const colorName = wplaceColorsMap[color]?.name;
+      if (!colorName) {
+        exitWithError("colors json is broken");
+      }
+
+      if (!totalTemplateColors[color]) continue;
+
+      const colorStats = pixelsPerColor[colorName]!;
+
+      colorsStats[colorName] = {
+        total: totalTemplateColors[color]!,
+        correct: colorStats.correct,
+        incorrect: colorStats.incorrect,
+        percentageComplete:
+          Math.round(
+            (colorStats.correct / totalTemplateColors[color]!) * 10000,
+          ) / 100,
+      };
     }
-
-    if (!totalTemplateColors[color]) continue;
-
-    const colorStats = pixelsPerColor[colorName]!;
-
-    colorsStats[colorName] = {
-      total: totalTemplateColors[color]!,
-      correct: colorStats.correct,
-      incorrect: colorStats.incorrect,
-      percentageComplete:
-        Math.round((colorStats.correct / totalTemplateColors[color]!) * 10000) /
-        100,
-    };
   }
 
   return {
