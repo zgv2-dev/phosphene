@@ -1,9 +1,9 @@
 import type { PNG } from "pngjs";
+import wplaceColors from "../../../colors.json";
 import type { Color, Stats } from "../../types";
 import exitWithError from "../../utils/exit-with-error";
 import rgbaToHex from "../../utils/png/rgba-to-hex";
 
-const wplaceColors = (await Bun.file("colors.json").json()) as Color[];
 const wplaceColorsMap = wplaceColors.reduce(
   (acc, color) => {
     const colorHex = rgbaToHex(
@@ -12,7 +12,7 @@ const wplaceColorsMap = wplaceColors.reduce(
       color.color.b,
       color.color.a,
     );
-    acc[colorHex] = color;
+    acc[colorHex] = color as Color;
 
     return acc;
   },
