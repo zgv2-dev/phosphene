@@ -26,3 +26,4 @@ TODO:
 - [ ] add build and publish step
 - [ ] add remove storage option
 - [ ] add cron job (`phospehe toggle`)
+- [ ] figure out if it's possible to consume pixel share links
