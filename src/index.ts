@@ -1,5 +1,6 @@
 #!/usr/bin/env bun
 
+import { join } from "node:path";
 import { Command } from "commander";
 import pkg from "../package.json";
 import add from "./actions/add";
@@ -10,7 +11,8 @@ import stats from "./actions/stats";
 import toggle from "./actions/toggle";
 import { db } from "./lib/db";
 import { prepareDb } from "./lib/db/actions";
-import createExportsDirectory from "./utils/create-exports-dir";
+import xdgPaths from "./lib/xdg-paths";
+import checkAndCreateDirectory from "./utils/check-and-create-dir";
 import exitWithError from "./utils/exit-with-error";
 import { colors } from "./vendor/picocolors";
 
@@ -21,7 +23,8 @@ program
   .description("a cli tool to track wplace progress")
   .usage("<command> [options]")
   .version(pkg.version)
-  .hook("preSubcommand", () => {
+  .hook("preSubcommand", async () => {
+    await checkAndCreateDirectory(join(xdgPaths.data));
     prepareDb();
   });
 
@@ -54,7 +57,7 @@ program
   .option("--hide-completed", "hide completed colors")
   .description("view current state of a drawing")
   .hook("preAction", async () => {
-    const result = await createExportsDirectory();
+    const result = await checkAndCreateDirectory(join(".", "exports")); // TODO: ask for confirmation
 
     if (!result) {
       exitWithError("couldn't create exports directory");
@@ -80,7 +83,7 @@ program
   .option("--scale <number>", "wplace image export upscale")
   .description("export wplace image")
   .hook("preAction", async () => {
-    const result = await createExportsDirectory();
+    const result = await checkAndCreateDirectory(join(".", "exports"));
 
     if (!result) {
       exitWithError("couldn't create exports directory");
