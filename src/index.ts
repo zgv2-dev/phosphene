@@ -40,7 +40,10 @@ program
   .action(async (image, coords, opts) => {
     await add(image, coords, opts.unique);
   });
-program.command("remove <id>").description("remove drawing from tracking").action(remove);
+program
+  .command("remove <id>")
+  .description("remove drawing from tracking")
+  .action(remove);
 program.command("list").description("list saved drawings").action(list);
 program
   .command("stats <id>")
@@ -55,9 +58,20 @@ program
       exitWithError("couldn't create exports directory");
     }
   })
-  .action(async (id, opts) => await stats(id, opts.export, opts.scale, opts.copy));
-program.command("toggle <id>").description("enable/disable auto tracking of drawing").action(toggle);
-program.command("export <start> <end>").description("export wplace image").action(exportWplace);
+  .action(
+    async (id, opts) => await stats(id, opts.export, opts.scale, opts.copy),
+  );
+program
+  .command("toggle <id>")
+  .description("enable/disable auto tracking of drawing")
+  .action(toggle);
+program
+  .command("export <start> <end>")
+  .option("--scale <number>", "wplace image export upscale")
+  .description("export wplace image")
+  .action(async (startCoords, endCoords, opts) => {
+    await exportWplace(startCoords, endCoords, opts.scale);
+  });
 
 try {
   await program.parseAsync();

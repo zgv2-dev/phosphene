@@ -1,5 +1,6 @@
 import { parse, string } from "valibot";
 import { type Coords, coordsSchema } from "../../types";
+import { TILE_HEIGHT, TILE_WIDTH } from "../../utils/consts";
 import exitWithError from "../../utils/exit-with-error";
 
 const copiedCoordsPattern = new RegExp(
@@ -20,7 +21,7 @@ const tryParseCoords = (
   }
 };
 
-export const readCoords = (rawCoordsLine: string): Coords => {
+export function readCoords(rawCoordsLine: string): Coords {
   const coordsString = parse(string(), rawCoordsLine);
   const coords =
     tryParseCoords(coordsString, justNumbersCoordsPattern) ??
@@ -30,4 +31,14 @@ export const readCoords = (rawCoordsLine: string): Coords => {
     );
 
   return coords;
-};
+}
+
+export function getImageSizeFromCoords(startCoords: Coords, endCoords: Coords) {
+  const xTiles = (endCoords.tileX - startCoords.tileX) * TILE_WIDTH;
+  const yTiles = (endCoords.tileY - startCoords.tileY) * TILE_HEIGHT;
+
+  const width = endCoords.pixelX - startCoords.pixelX + xTiles + 1;
+  const height = endCoords.pixelY - startCoords.pixelY + yTiles + 1;
+
+  return { width, height };
+}
