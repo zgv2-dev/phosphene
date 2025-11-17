@@ -19,3 +19,10 @@ Use it:
 ```bash
 phosphene --help
 ```
+
+TODO: 
+
+- [ ] add config file
+- [ ] add build and publish step
+- [ ] add remove storage option
+- [ ] add cron job (`phospehe toggle`)
